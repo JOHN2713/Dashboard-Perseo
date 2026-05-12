@@ -50,7 +50,21 @@ st.markdown("---")
 # Cargar datos con cache
 @st.cache_data
 def cargar_datos():
-    df = pd.read_excel('BASE WEB OK (1).xlsx')
+    try:
+        # Intentar cargar desde Google Drive (para Streamlit Cloud)
+        file_id = "1wt2unhyUsXhKjQnjEXoB36tlP2eA5Jst"
+        url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        df = pd.read_excel(url)
+        st.sidebar.info("📡 Datos cargados desde Google Drive")
+    except Exception as e:
+        # Si falla, cargar desde archivo local
+        try:
+            df = pd.read_excel('BASE WEB OK (1).xlsx')
+            st.sidebar.info("💾 Datos cargados desde archivo local")
+        except Exception as e2:
+            st.error(f"Error al cargar datos: {e2}")
+            st.stop()
+    
     # Asegurar que las fechas estén en formato correcto
     df['Inicio'] = pd.to_datetime(df['Inicio'])
     df['Vence'] = pd.to_datetime(df['Vence'])

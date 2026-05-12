@@ -50,10 +50,33 @@ cd Dashboard-Perseo
 pip install -r requirements.txt
 ```
 
-3. Asegúrate de tener los archivos Excel en la carpeta raíz:
-   - `BASE FACTURITO OL.xlsx`
-   - `BASE WEB OK (1).xlsx`
-   - `BASE PRODUCTO PC.xlsx`
+3. **Opción A - Usar archivos locales**:
+   - Coloca los archivos Excel en la carpeta raíz:
+     - `BASE FACTURITO OL.xlsx`
+     - `BASE WEB OK (1).xlsx`
+     - `BASE PRODUCTO PC.xlsx`
+
+4. **Opción B - Cargar desde Google Drive** (automático):
+   - Los dashboards están configurados para cargar desde Google Drive automáticamente
+   - No necesitas los archivos Excel locales
+   - Los datos se descargan al iniciar el dashboard
+
+## ☁️ Despliegue en Streamlit Cloud
+
+Este proyecto está listo para desplegarse en Streamlit Cloud:
+
+1. Los datos se cargan automáticamente desde Google Drive
+2. No necesitas subir archivos Excel a GitHub
+3. Sigue la guía completa en [DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)
+
+**URL de despliegue**: https://share.streamlit.io
+
+### Archivos de datos en Google Drive
+
+Los dashboards cargan los datos desde:
+- **Facturito**: Google Drive (ID: 1fforhn03rynmhUva0SaN1SawnxmEm5dV)
+- **Perseo WEB**: Google Drive (ID: 1wt2unhyUsXhKjQnjEXoB36tlP2eA5Jst)
+- **Perseo PC**: Google Drive (ID: 168V0BCy0-LZDzeKQp-9sdJuXIbRQvOpd)
 
 ## 💻 Uso
 
@@ -104,18 +127,11 @@ Dashboard-Perseo/
 - **Plotly 5.18.0**: Visualizaciones interactivas
 - **OpenPyXL 3.1.2**: Lectura de archivos Excel
 
-## 🌐 Despliegue en Streamlit Cloud
-
-Este proyecto está preparado para ser desplegado en Streamlit Cloud:
-
-1. Sube tu repositorio a GitHub
-2. Ve a [share.streamlit.io](https://share.streamlit.io)
-3. Conecta tu repositorio
-4. Despliega cada dashboard seleccionando el archivo correspondiente
-
 ## 📊 Datos Requeridos
 
-Los archivos Excel deben contener las siguientes columnas principales:
+Los dashboards cargan datos automáticamente desde Google Drive, por lo que no necesitas archivos locales para el despliegue en la nube.
+
+Para uso local, los archivos Excel deben contener las siguientes columnas principales:
 
 - **Identificación**: ID del cliente
 - **EMPRESAS**: Nombre de la empresa
@@ -126,6 +142,15 @@ Los archivos Excel deben contener las siguientes columnas principales:
 - **Ingreso Mensual**: Ingreso mensual del cliente
 - **Año Inicio**: Año de inicio de la suscripción
 - **Inicio/Vence**: Fechas de inicio y vencimiento
+
+## 🔄 Carga de Datos Inteligente
+
+Los dashboards implementan un sistema de carga dual:
+
+1. **Primero**: Intentan cargar desde Google Drive (para Streamlit Cloud)
+2. **Si falla**: Cargan desde archivo local (para desarrollo local)
+
+Esto permite que funcionen tanto en producción como en desarrollo sin cambios de código.
 
 ## 🎨 Personalización
 
@@ -153,6 +178,20 @@ Desarrollado por el equipo de análisis de datos de Perseo.
 
 Para soporte o consultas sobre los dashboards, contacta al equipo de desarrollo de Perseo.
 
+## 🔗 Enlaces Útiles
+
+- **Repositorio GitHub**: https://github.com/JOHN2713/Dashboard-Perseo
+- **Streamlit Cloud**: https://share.streamlit.io
+- **Guía de Despliegue**: Ver [DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)
+
+## 📈 Próximas Mejoras
+
+- [ ] Integración con base de datos en tiempo real
+- [ ] Exportación de reportes en PDF
+- [ ] Predicciones de churn con ML
+- [ ] Dashboard consolidado con los 3 productos
+- [ ] Notificaciones de alertas por email
+
 ---
 
-**Nota**: Este proyecto requiere archivos de datos Excel específicos que no están incluidos en el repositorio por motivos de confidencialidad. Contacta al administrador para obtener acceso a los datos.
+**Nota**: Los datos se cargan desde Google Drive con permisos públicos de solo lectura. Para mayor seguridad en producción, considera migrar a una base de datos con autenticación.
