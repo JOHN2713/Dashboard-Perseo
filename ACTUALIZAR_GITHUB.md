@@ -9,6 +9,7 @@ Se han hecho las siguientes mejoras para solucionar el problema de despliegue:
 3. **Versiones flexibles**: Dependencias más compatibles en `requirements.txt`
 4. **TTL en caché**: Los datos se cachean por 1 hora para mejor rendimiento
 5. **Motor explícito**: Especificado `openpyxl` como motor para Excel
+6. **🆕 Estructura Multipage**: Ahora puedes acceder a los 3 dashboards desde una sola app
 
 ## 📋 Ejecuta estos comandos:
 
@@ -50,9 +51,11 @@ Si quieres empezar de cero:
 3. Configuración:
    - **Repository**: `JOHN2713/Dashboard-Perseo`
    - **Branch**: `main`
-   - **Main file path**: `dashboard_facturito.py`
+   - **Main file path**: `Home.py` ⭐ **IMPORTANTE: Usar Home.py**
 4. Click en **"Deploy!"**
 5. Espera 2-3 minutos
+
+**Ventaja**: Con `Home.py` tendrás acceso a los 3 dashboards desde el menú lateral de una sola app.
 
 ## 🔍 Qué Esperar en los Logs
 
@@ -113,7 +116,14 @@ Si después de estos cambios aún hay problemas:
 - `dashboard_web.py` - ✅ Actualizado con gdown
 - `dashboard_pc.py` - ✅ Actualizado con gdown
 - `requirements.txt` - ✅ Agregado gdown>=4.7.1
-- `test_gdown.py` - ✅ Script de prueba (probado localmente ✅)
+- `test_google_drive.py` - ✅ Script de prueba (probado localmente ✅)
+
+## 🆕 Archivos Nuevos (Estructura Multipage)
+
+- `Home.py` - ✅ Página principal con menú de navegación
+- `pages/1_📊_Facturito.py` - ✅ Dashboard Facturito (en menú lateral)
+- `pages/2_🌐_Perseo_WEB.py` - ✅ Dashboard Perseo WEB (en menú lateral)
+- `pages/3_💻_Perseo_PC.py` - ✅ Dashboard Perseo PC (en menú lateral)
 
 ## 🎯 ¡Listo para Desplegar!
 

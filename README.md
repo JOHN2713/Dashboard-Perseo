@@ -63,13 +63,27 @@ pip install -r requirements.txt
 
 ## ☁️ Despliegue en Streamlit Cloud
 
-Este proyecto está listo para desplegarse en Streamlit Cloud:
+Este proyecto utiliza una **estructura multipage** que permite acceder a los 3 dashboards desde una sola aplicación desplegada.
+
+### Pasos para desplegar:
 
 1. Los datos se cargan automáticamente desde Google Drive
 2. No necesitas subir archivos Excel a GitHub
-3. Sigue la guía completa en [DEPLOY_GUIDE.md](DEPLOY_GUIDE.md)
+3. Solo despliega **un archivo**: `Home.py`
 
-**URL de despliegue**: https://share.streamlit.io
+### Configuración en Streamlit Cloud:
+
+1. Ve a https://share.streamlit.io
+2. Click en **"New app"**
+3. Configuración:
+   - **Repository**: `JOHN2713/Dashboard-Perseo`
+   - **Branch**: `main`
+   - **Main file path**: `Home.py` ⭐ **Importante**
+4. Click en **"Deploy!"**
+
+Una vez desplegado, tendrás acceso a los 3 dashboards desde el menú lateral de una sola aplicación.
+
+**URL única**: `https://dashboard-perseo.streamlit.app`
 
 ### Archivos de datos en Google Drive
 
@@ -80,45 +94,61 @@ Los dashboards cargan los datos desde:
 
 ## 💻 Uso
 
-Ejecuta cada dashboard en puertos diferentes:
+### Opción 1: Multipage App (Recomendado)
 
-### Dashboard Facturito (Puerto 8501)
+Ejecuta la aplicación principal que incluye los 3 dashboards:
+
+```bash
+streamlit run Home.py
+```
+
+Esto abrirá la aplicación en http://localhost:8501 con un **menú lateral** que te permite navegar entre:
+- 🏠 Home (página de bienvenida)
+- 📊 Facturito
+- 🌐 Perseo WEB
+- 💻 Perseo PC
+
+### Opción 2: Dashboards Individuales
+
+Si prefieres ejecutar cada dashboard por separado:
+
+#### Dashboard Facturito (Puerto 8501)
 ```bash
 streamlit run dashboard_facturito.py
 ```
 
-### Dashboard Perseo WEB (Puerto 8502)
+#### Dashboard Perseo WEB (Puerto 8502)
 ```bash
 streamlit run dashboard_web.py --server.port 8502
 ```
 
-### Dashboard Perseo PC (Puerto 8503)
+#### Dashboard Perseo PC (Puerto 8503)
 ```bash
 streamlit run dashboard_pc.py --server.port 8503
 ```
-
-Los dashboards estarán disponibles en:
-- Facturito: http://localhost:8501
-- Perseo WEB: http://localhost:8502
-- Perseo PC: http://localhost:8503
 
 ## 📦 Estructura del Proyecto
 
 ```
 Dashboard-Perseo/
-├── dashboard_facturito.py       # Dashboard para Facturito
-├── dashboard_web.py             # Dashboard para Perseo WEB
-├── dashboard_pc.py              # Dashboard para Perseo PC
-├── requirements.txt             # Dependencias del proyecto
-├── perseo-logo-negro.png        # Logo Perseo (fondo claro)
-├── perseo-logo-blanco.png       # Logo Perseo (fondo oscuro)
+├── Home.py                          # 🏠 Página principal (punto de entrada)
+├── pages/                           # 📁 Dashboards (multipage app)
+│   ├── 1_📊_Facturito.py           # Dashboard para Facturito
+│   ├── 2_🌐_Perseo_WEB.py          # Dashboard para Perseo WEB
+│   └── 3_💻_Perseo_PC.py           # Dashboard para Perseo PC
+├── dashboard_facturito.py           # Versión standalone de Facturito
+├── dashboard_web.py                 # Versión standalone de WEB
+├── dashboard_pc.py                  # Versión standalone de PC
+├── requirements.txt                 # Dependencias del proyecto
+├── perseo-logo-negro.png            # Logo Perseo (fondo claro)
+├── perseo-logo-blanco.png           # Logo Perseo (fondo oscuro)
 ├── .streamlit/
-│   └── config.toml             # Configuración de Streamlit
-├── BASE FACTURITO OL.xlsx      # Datos de Facturito
-├── BASE WEB OK (1).xlsx        # Datos de Perseo WEB
-├── BASE PRODUCTO PC.xlsx       # Datos de Perseo PC
-└── README.md                   # Este archivo
+│   └── config.toml                 # Configuración de Streamlit
+├── test_google_drive.py            # Script de prueba de Google Drive
+└── README.md                       # Este archivo
 ```
+
+**Nota**: La estructura multipage permite acceder a los 3 dashboards desde una sola aplicación.
 
 ## 🛠️ Tecnologías Utilizadas
 
