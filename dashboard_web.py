@@ -48,26 +48,47 @@ st.title("🌐 Dashboard Perseo WEB")
 st.markdown("---")
 
 # Cargar datos con cache
-@st.cache_data
+@st.cache_data(ttl=3600)
 def cargar_datos():
+    """Carga datos desde Google Drive o archivo local con fallback"""
+    import gdown
+    import os
+    
+    # Intentar cargar desde Google Drive (para Streamlit Cloud)
+    file_id = "1wt2unhyUsXhKjQnjEXoB36tlP2eA5Jst"
+    
     try:
-        # Intentar cargar desde Google Drive (para Streamlit Cloud)
-        file_id = "1wt2unhyUsXhKjQnjEXoB36tlP2eA5Jst"
-        url = f"https://drive.google.com/uc?export=download&id={file_id}"
-        df = pd.read_excel(url)
-        st.sidebar.info("📡 Datos cargados desde Google Drive")
+        st.sidebar.info("📡 Descargando datos desde Google Drive...")
+        
+        # Descargar archivo temporalmente
+        temp_file = "temp_web.xlsx"
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, temp_file, quiet=False)
+        
+        # Leer el archivo descargado
+        df = pd.read_excel(temp_file, engine='openpyxl')
+        
+        # Limpiar archivo temporal
+        if os.path.exists(temp_file):
+            os.remove(temp_file)
+        
+        st.sidebar.success("✅ Datos cargados desde Google Drive")
+        
     except Exception as e:
-        # Si falla, cargar desde archivo local
+        st.sidebar.warning(f"⚠️ Google Drive falló: {str(e)[:50]}...")
+        # Intentar cargar desde archivo local
         try:
+            st.sidebar.info("💾 Intentando cargar desde archivo local...")
             df = pd.read_excel('BASE WEB OK (1).xlsx')
-            st.sidebar.info("💾 Datos cargados desde archivo local")
+            st.sidebar.success("✅ Datos cargados desde archivo local")
         except Exception as e2:
-            st.error(f"Error al cargar datos: {e2}")
+            st.error(f"❌ Error al cargar datos: {str(e2)}")
+            st.error("Por favor verifica que los archivos estén disponibles.")
             st.stop()
     
     # Asegurar que las fechas estén en formato correcto
-    df['Inicio'] = pd.to_datetime(df['Inicio'])
-    df['Vence'] = pd.to_datetime(df['Vence'])
+    df['Inicio'] = pd.to_datetime(df['Inicio'], errors='coerce')
+    df['Vence'] = pd.to_datetime(df['Vence'], errors='coerce')
     df['Fecha Ultimo Pago'] = pd.to_datetime(df['Fecha Ultimo Pago'], errors='coerce')
     return df
 
