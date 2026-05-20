@@ -215,9 +215,9 @@ st.header("📈 Indicadores Clave (KPIs)")
 # Calcular KPIs
 total_clientes = len(df_filtrado)
 clientes_activos = len(df_filtrado[df_filtrado['Estado'] == 'Activo'])
-mrr = df_filtrado[df_filtrado['Estado'] == 'Activo']['Ingreso Mensual Equiv'].sum()
-arr = mrr * 12
-ticket_promedio = df_filtrado[df_filtrado['Estado'] == 'Activo']['Ingreso Mensual Equiv'].mean()
+# mrr = df_filtrado[df_filtrado['Estado'] == 'Activo']['Ingreso Mensual Equiv'].sum()  # OCULTO TEMPORALMENTE
+# arr = mrr * 12  # OCULTO TEMPORALMENTE
+# ticket_promedio = df_filtrado[df_filtrado['Estado'] == 'Activo']['Ingreso Mensual Equiv'].mean()  # OCULTO TEMPORALMENTE
 
 # Calcular Churn (clientes terminados + inactivos)
 clientes_churn = len(df_filtrado[df_filtrado['Estado'].isin(['Terminado', 'Inactivo'])])
@@ -225,7 +225,7 @@ tasa_churn = (clientes_churn / total_clientes * 100) if total_clientes > 0 else 
 tasa_retencion = 100 - tasa_churn
 
 # Mostrar KPIs en columnas
-col1, col2, col3, col4 = st.columns(4)
+col1, col2 = st.columns(2)
 
 with col1:
     st.metric(
@@ -240,27 +240,27 @@ with col2:
         delta=f"{(clientes_activos/total_clientes*100):.1f}%" if total_clientes > 0 else "0%"
     )
 
-with col3:
-    st.metric(
-        label="💰 MRR",
-        value=f"${mrr:,.2f}"
-    )
+# with col3:  # OCULTO TEMPORALMENTE
+#     st.metric(
+#         label="💰 MRR",
+#         value=f"${mrr:,.2f}"
+#     )
 
-with col4:
-    st.metric(
-        label="💎 ARR",
-        value=f"${arr:,.2f}"
-    )
+# with col4:  # OCULTO TEMPORALMENTE
+#     st.metric(
+#         label="💎 ARR",
+#         value=f"${arr:,.2f}"
+#     )
 
-col5, col6, col7 = st.columns(3)
+col5, col6 = st.columns(2)
+
+# with col5:  # OCULTO TEMPORALMENTE
+#     st.metric(
+#         label="🎯 Ticket Promedio",
+#         value=f"${ticket_promedio:,.2f}" if pd.notna(ticket_promedio) else "$0.00"
+#     )
 
 with col5:
-    st.metric(
-        label="🎯 Ticket Promedio",
-        value=f"${ticket_promedio:,.2f}" if pd.notna(ticket_promedio) else "$0.00"
-    )
-
-with col6:
     st.metric(
         label="📉 Tasa Churn",
         value=f"{tasa_churn:.2f}%",
@@ -268,7 +268,7 @@ with col6:
         delta_color="inverse"
     )
 
-with col7:
+with col6:
     st.metric(
         label="📈 % Tasa de Retención",
         value=f"{tasa_retencion:.2f}%",
