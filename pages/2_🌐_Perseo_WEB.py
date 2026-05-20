@@ -345,25 +345,25 @@ if todas_palabras_clave:
 # ============================================
 st.header("📊 Visualizaciones")
 
-# Gráfico 1: Ingreso Mensual por Producto (Barras)
-st.subheader("💵 Ingreso Mensual por Producto")
-ingreso_producto = df_filtrado.groupby('Producto')['Ingreso Mensual Equiv'].sum().reset_index()
-ingreso_producto = ingreso_producto.sort_values('Ingreso Mensual Equiv', ascending=True)
+# # Gráfico 1: Ingreso Mensual por Producto (Barras) - OCULTO TEMPORALMENTE
+# st.subheader("💵 Ingreso Mensual por Producto")
+# ingreso_producto = df_filtrado.groupby('Producto')['Ingreso Mensual Equiv'].sum().reset_index()
+# ingreso_producto = ingreso_producto.sort_values('Ingreso Mensual Equiv', ascending=True)
 
-fig1 = px.bar(
-    ingreso_producto,
-    x='Ingreso Mensual Equiv',
-    y='Producto',
-    orientation='h',
-    title='Ingreso Mensual por Producto',
-    labels={'Ingreso Mensual Equiv': 'Ingreso Mensual ($)', 'Producto': 'Producto'},
-    color='Ingreso Mensual Equiv',
-    color_continuous_scale='Blues'
-)
-fig1.update_layout(height=400, showlegend=False)
-st.plotly_chart(fig1, width='stretch')
+# fig1 = px.bar(
+#     ingreso_producto,
+#     x='Ingreso Mensual Equiv',
+#     y='Producto',
+#     orientation='h',
+#     title='Ingreso Mensual por Producto',
+#     labels={'Ingreso Mensual Equiv': 'Ingreso Mensual ($)', 'Producto': 'Producto'},
+#     color='Ingreso Mensual Equiv',
+#     color_continuous_scale='Blues'
+# )
+# fig1.update_layout(height=400, showlegend=False)
+# st.plotly_chart(fig1, width='stretch')
 
-st.markdown("---")
+# st.markdown("---")
 
 # Gráfico 2: Ingreso Mensual por Distribuidor (Barras)
 st.subheader("🏢 Ingreso Mensual por Distribuidor")
@@ -450,22 +450,23 @@ with col_left2:
     st.plotly_chart(fig5, width='stretch')
 
 with col_right2:
-    # Gráfico 6: Recuento de Producto por Distribuidor y Estado (Barras Apiladas)
-    st.subheader("📦 Productos por Distribuidor y Estado")
-    producto_dist_estado = df_filtrado.groupby(['Distribuidor', 'Estado', 'Producto']).size().reset_index(name='Cantidad')
+    # # Gráfico 6: Recuento de Producto por Distribuidor y Estado (Barras Apiladas) - OCULTO TEMPORALMENTE
+    # st.subheader("📦 Productos por Distribuidor y Estado")
+    # producto_dist_estado = df_filtrado.groupby(['Distribuidor', 'Estado', 'Producto']).size().reset_index(name='Cantidad')
     
-    fig6 = px.bar(
-        producto_dist_estado,
-        x='Distribuidor',
-        y='Cantidad',
-        color='Estado',
-        title='Recuento de Productos por Distribuidor y Estado',
-        labels={'Cantidad': 'Cantidad de Productos', 'Distribuidor': 'Distribuidor'},
-        barmode='stack',
-        color_discrete_sequence=px.colors.qualitative.Set2
-    )
-    fig6.update_layout(height=400, xaxis_tickangle=-45)
-    st.plotly_chart(fig6, width='stretch')
+    # fig6 = px.bar(
+    #     producto_dist_estado,
+    #     x='Distribuidor',
+    #     y='Cantidad',
+    #     color='Estado',
+    #     title='Recuento de Productos por Distribuidor y Estado',
+    #     labels={'Cantidad': 'Cantidad de Productos', 'Distribuidor': 'Distribuidor'},
+    #     barmode='stack',
+    #     color_discrete_sequence=px.colors.qualitative.Set2
+    # )
+    # fig6.update_layout(height=400, xaxis_tickangle=-45)
+    # st.plotly_chart(fig6, width='stretch')
+    pass
 
 st.markdown("---")
 
