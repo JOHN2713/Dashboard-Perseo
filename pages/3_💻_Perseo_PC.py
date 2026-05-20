@@ -368,25 +368,25 @@ st.header("📊 Visualizaciones")
 
 # st.markdown("---")
 
-# Gráfico 2: Ingreso Mensual por Distribuidor (Barras)
-st.subheader("🏢 Ingreso Mensual por Distribuidor")
-ingreso_distribuidor = df_filtrado.groupby('Distribuidor')['Ingreso Mensual Equiv'].sum().reset_index()
-ingreso_distribuidor = ingreso_distribuidor.sort_values('Ingreso Mensual Equiv', ascending=True)
+# # Gráfico 2: Ingreso Mensual por Distribuidor (Barras) - OCULTO TEMPORALMENTE
+# st.subheader("🏢 Ingreso Mensual por Distribuidor")
+# ingreso_distribuidor = df_filtrado.groupby('Distribuidor')['Ingreso Mensual Equiv'].sum().reset_index()
+# ingreso_distribuidor = ingreso_distribuidor.sort_values('Ingreso Mensual Equiv', ascending=True)
 
-fig2 = px.bar(
-    ingreso_distribuidor,
-    x='Ingreso Mensual Equiv',
-    y='Distribuidor',
-    orientation='h',
-    title='Ingreso Mensual por Distribuidor',
-    labels={'Ingreso Mensual Equiv': 'Ingreso Mensual ($)', 'Distribuidor': 'Distribuidor'},
-    color='Ingreso Mensual Equiv',
-    color_continuous_scale='Greens'
-)
-fig2.update_layout(height=400, showlegend=False)
-st.plotly_chart(fig2, width='stretch')
+# fig2 = px.bar(
+#     ingreso_distribuidor,
+#     x='Ingreso Mensual Equiv',
+#     y='Distribuidor',
+#     orientation='h',
+#     title='Ingreso Mensual por Distribuidor',
+#     labels={'Ingreso Mensual Equiv': 'Ingreso Mensual ($)', 'Distribuidor': 'Distribuidor'},
+#     color='Ingreso Mensual Equiv',
+#     color_continuous_scale='Greens'
+# )
+# fig2.update_layout(height=400, showlegend=False)
+# st.plotly_chart(fig2, width='stretch')
 
-st.markdown("---")
+# st.markdown("---")
 
 # Fila de gráficos 3 y 4
 col_left, col_right = st.columns(2)
