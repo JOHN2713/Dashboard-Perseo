@@ -148,6 +148,39 @@ filtro_año = st.sidebar.multiselect(
 )
 
 # ============================================
+# FILTRO DE PALABRAS CLAVE
+# ============================================
+st.sidebar.markdown("---")
+with st.sidebar.expander("🔑 Filtro de Palabras Clave", expanded=False):
+    st.markdown("**Buscar palabras clave en nombres de empresas**")
+    
+    # Palabras clave predefinidas sugeridas
+    palabras_sugeridas = ["mecánica", "cevicheria", "ferretería", "restaurante", 
+                          "farmacia", "tienda", "consultorio", "hotel", "panadería"]
+    
+    # Input para agregar palabras clave personalizadas
+    palabras_personalizadas = st.text_input(
+        "Agregar palabras clave (separadas por coma):",
+        placeholder="Ej: mecánica, cevicheria, ferretería"
+    )
+    
+    # Combinar palabras sugeridas y personalizadas
+    if palabras_personalizadas:
+        palabras_ingresadas = [p.strip().lower() for p in palabras_personalizadas.split(',') if p.strip()]
+    else:
+        palabras_ingresadas = []
+    
+    # Multiselect con palabras sugeridas
+    palabras_seleccionadas_sugeridas = st.multiselect(
+        "O selecciona palabras sugeridas:",
+        options=palabras_sugeridas,
+        default=[]
+    )
+    
+    # Combinar todas las palabras clave
+    todas_palabras_clave = palabras_ingresadas + palabras_seleccionadas_sugeridas
+
+# ============================================
 # APLICAR FILTROS
 # ============================================
 df_filtrado = df.copy()
@@ -170,6 +203,72 @@ if filtro_año:
 # Mostrar cantidad de registros filtrados
 st.sidebar.markdown("---")
 st.sidebar.metric("Registros filtrados", f"{len(df_filtrado):,}")
+
+# ============================================
+# ANÁLISIS DE PALABRAS CLAVE
+# ============================================
+if todas_palabras_clave:
+    st.header("🔑 Análisis de Palabras Clave en Empresas")
+    
+    # Función para contar palabras clave
+    def contar_palabra_clave(df, palabra):
+        """Cuenta cuántas empresas contienen una palabra clave"""
+        if 'EMPRESAS' in df.columns:
+            # Convertir a string y minúsculas, manejar valores nulos
+            empresas_str = df['EMPRESAS'].fillna('').astype(str).str.lower()
+            return empresas_str.str.contains(palabra.lower(), na=False).sum()
+        return 0
+    
+    # Crear diccionario de contadores
+    contadores_palabras = {}
+    for palabra in todas_palabras_clave:
+        contadores_palabras[palabra] = contar_palabra_clave(df_filtrado, palabra)
+    
+    # Mostrar métricas en columnas
+    st.subheader("📊 Contador de Palabras Clave")
+    
+    # Crear columnas dinámicas según la cantidad de palabras
+    num_palabras = len(todas_palabras_clave)
+    cols_por_fila = 4
+    
+    # Dividir en filas de columnas
+    for i in range(0, num_palabras, cols_por_fila):
+        cols = st.columns(cols_por_fila)
+        palabras_fila = list(todas_palabras_clave)[i:i+cols_por_fila]
+        
+        for idx, palabra in enumerate(palabras_fila):
+            with cols[idx]:
+                st.metric(
+                    label=f"🏢 {palabra.capitalize()}",
+                    value=f"{contadores_palabras[palabra]} empresas"
+                )
+    
+    # Gráfico de barras de palabras clave
+    if contadores_palabras:
+        st.subheader("📈 Distribución de Palabras Clave")
+        
+        # Crear DataFrame para el gráfico
+        df_palabras = pd.DataFrame(
+            list(contadores_palabras.items()),
+            columns=['Palabra Clave', 'Cantidad']
+        ).sort_values('Cantidad', ascending=True)
+        
+        fig_palabras = px.bar(
+            df_palabras,
+            x='Cantidad',
+            y='Palabra Clave',
+            orientation='h',
+            title='Empresas que contienen cada palabra clave',
+            labels={'Cantidad': 'Número de Empresas', 'Palabra Clave': 'Palabra Clave'},
+            color='Cantidad',
+            color_continuous_scale='Blues',
+            text='Cantidad'
+        )
+        fig_palabras.update_traces(textposition='outside')
+        fig_palabras.update_layout(height=max(300, len(df_palabras) * 50), showlegend=False)
+        st.plotly_chart(fig_palabras, use_container_width=True)
+    
+    st.markdown("---")
 
 # ============================================
 # KPIs / TARJETAS
